@@ -39,3 +39,9 @@ class Advertisement(models.Model):
             updated_time = self.updated_at.time().strftime("%H:%M:%S")
             return format_html('<span style ="color: yellow; font-weight: bold;">Сегодня в {}</span>', updated_time)
         return self.updated_at.strftime("%d.%m.%Y в %H:%M:%S")
+    
+    @admin.display(description="Изображение")
+    def image_picture(self):
+        from django.utils.html import format_html
+        from django.conf import settings
+        return format_html("<img src='{}' style='max-width: 150px; max-height: 150px'/>", f"{settings.MEDIA_URL}{self.image}" if self.image != '' else '')
